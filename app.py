@@ -1,5 +1,5 @@
 import streamlit as st
-from sklearn.datasets import make_blobs, make_circles, make_moons
+from sklearn.datasets import make_blobs
 from sklearn.manifold import TSNE
 import matplotlib.pyplot as plt
 import graph_convexity as gc

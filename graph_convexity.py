@@ -1,3 +1,4 @@
+from typing import Any
 import numpy as np
 import networkx as nx
 from sklearn.neighbors import kneighbors_graph
@@ -21,33 +22,39 @@ def shortest_paths(G):
                     paths.append([n, m, -1])
     return paths
 
-def relevant_path_labels(paths, labels):
+def all_path_labels(paths, labels):
+    """
+    If a path does not exist between two nodes of the same label, -1 is appended.
+    If a path does not exist between two nodes of different labels, -2 is appended.
+    If a path exists between two nodes of the same label, the labels of the path is appended.
+    """
+
     path_labels = []
     for path in paths:
         no_path_exists = path[-1] == -1
-        ends_have_same_label = labels[path[0]] == labels[path[-1]]
-
-        if no_path_exists and ends_have_same_label:
-            path_labels.append([-1])
+        if no_path_exists:
+            if labels[path[0]] == labels[path[1]]:
+                path_labels.append([-1])
+            else:
+                path_labels.append([-2])
         else:
             path_labels.append(labels[path])
     return path_labels
 
 def convexity_score(paths, labels):
-    path_labels_list = relevant_path_labels(paths, labels)
+    """
+    
+    """
+    all_path_labels_ = all_path_labels(paths, labels)
 
     path_scores = []
-    for path_labels in path_labels_list:
-        no_path_exists = path_labels[0] == -1
-        ends_have_same_label = path_labels[0] == path_labels[-1]
-
-        if no_path_exists:
+    for path_labels in all_path_labels_:
+        if path_labels[0] == -1:
             path_scores.append(0.0)
-        if len(path_labels) == 2 and ends_have_same_label:
+        if len(path_labels) == 2 and path_labels[0] == path_labels[-1]:
             path_scores.append(1.0)
-        if len(path_labels) > 2 and ends_have_same_label:
-            path_score = np.mean(path_labels[1:-1] == path_labels[0])
-            path_scores.append(path_score)
+        if len(path_labels) > 2 and path_labels[0] == path_labels[-1]:
+            path_scores.append(np.mean(path_labels[1:-1] == path_labels[0]))
 
     return np.mean(path_scores)
 
