@@ -37,10 +37,13 @@ def convexity_score(paths, labels):
 
     path_scores = []
     for path_labels in all_path_labels_:
+        # no path
         if path_labels[0] == -1:
             path_scores.append(0.0)
+        # direct path
         if len(path_labels) == 2 and path_labels[0] == path_labels[-1]:
             path_scores.append(1.0)
+        # indirect path
         if len(path_labels) > 2 and path_labels[0] == path_labels[-1]:
             path_scores.append(np.mean(path_labels[1:-1] == path_labels[0]))
 
