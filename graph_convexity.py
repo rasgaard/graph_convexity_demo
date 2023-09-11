@@ -1,4 +1,3 @@
-from typing import Any
 import numpy as np
 import networkx as nx
 from sklearn.neighbors import kneighbors_graph
@@ -22,30 +21,19 @@ def shortest_paths(G):
                     paths.append([n, m, -1])
     return paths
 
-def all_path_labels(paths, labels):
-    """
-    If a path does not exist between two nodes of the same label, -1 is appended.
-    If a path does not exist between two nodes of different labels, -2 is appended.
-    If a path exists between two nodes of the same label, the labels of the path is appended.
-    """
-
+def relevant_path_labels(paths, labels):
     path_labels = []
     for path in paths:
         no_path_exists = path[-1] == -1
         if no_path_exists:
             if labels[path[0]] == labels[path[1]]:
                 path_labels.append([-1])
-            else:
-                path_labels.append([-2])
         else:
             path_labels.append(labels[path])
     return path_labels
 
 def convexity_score(paths, labels):
-    """
-    
-    """
-    all_path_labels_ = all_path_labels(paths, labels)
+    all_path_labels_ = relevant_path_labels(paths, labels)
 
     path_scores = []
     for path_labels in all_path_labels_:
