@@ -38,7 +38,7 @@ convexity_score = gc.convexity_score(paths, y)
 with col2:
     fig, ax = plt.subplots()
     ax.set_title("Graph view")
-    nx.draw(G, node_color=y, ax=ax)
+    nx.draw(G, node_color=y, ax=ax, pos=X_embedded)
     st.pyplot(fig, clear_figure=True)
 
 st.write(f"Convexity score: {convexity_score:.4f}")
