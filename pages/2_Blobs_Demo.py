@@ -10,7 +10,7 @@ st.title("Graph Convexity of blobs")
 n_samples = int(st.sidebar.number_input("Number of samples", key="blobs", value=100))
 n_centers = int(st.sidebar.number_input("Number of centers", value=3))
 n_neighbors = int(st.sidebar.number_input("Number of neighbors", value=10))
-n_features = int(st.sidebar.number_input("Number of features", value=768))
+n_features = int(st.sidebar.number_input("Number of features", value=2))
 cluster_std = float(st.sidebar.number_input("Cluster standard deviation", value=1.0))
 random_state = int(st.sidebar.number_input("Random state", value=42))
 
